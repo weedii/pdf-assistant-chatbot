@@ -14,7 +14,7 @@ Context:
 
 Question: {question}
 
-Answer the question thoroughly but concisely:
+Answer the question thoroughly but concisely and retun only response text:
 """
 
 
@@ -28,6 +28,6 @@ def generateResponseFromPrompt(data: str, prompt: str):
     formattedPrompt = generateFormattedPrompt(data, prompt)
 
     model = ChatOpenAI(openai_api_key=openApiKey)
-    res = model.predict(formattedPrompt)
+    res = model.invoke(formattedPrompt)
 
-    return res
+    return res.content

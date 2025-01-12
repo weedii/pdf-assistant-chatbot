@@ -14,6 +14,11 @@ async def saveChunksToDB(chunks: list[Document], userEmail: str):
         embedding_function=OpenAIEmbeddings(),
         persist_directory=CHROMA_PATH
     )
-    await db.aadd_documents(chunks)
+
+    MAX_BATCH_SIZE = 150
+    for i in range(0, len(chunks), MAX_BATCH_SIZE):
+        batch = chunks[i:i+MAX_BATCH_SIZE]
+        await db.aadd_documents(batch)
+        print(f"Saved batch with {len(batch)} chunks.")
 
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}")
