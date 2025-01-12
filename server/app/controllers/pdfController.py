@@ -6,7 +6,7 @@ import PyPDF2
 from app.utils import saveChunksToDB
 
 
-async def uploadPDFController(file: UploadFile):
+async def uploadPDFController(file: UploadFile, userEmail: str):
     # ensure file type is pdf
     if (file.content_type != "application/pdf"):
         raise HTTPException(
@@ -33,6 +33,6 @@ async def uploadPDFController(file: UploadFile):
     chunks = textSplitter.split_documents(documents)
 
     # todo save chunks to DB
-    saveChunksToDB(chunks)
+    await saveChunksToDB(chunks, userEmail)
 
     return "File was uploaded successfuly"

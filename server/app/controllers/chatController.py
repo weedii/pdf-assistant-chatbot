@@ -1,11 +1,10 @@
-from app.utils import retrieveData
+from app.utils import retrieveData, generateResponseFromPrompt
 from fastapi import HTTPException
-from app.utils import generateResponseFromPrompt
 
 
-async def sendPromptController(prompt: str):
+async def sendPromptController(prompt: str, userEmail: str):
     # retrieve Data
-    data = retrieveData(prompt)
+    data = retrieveData(prompt, userEmail)
 
     if (data == None):
         raise HTTPException(

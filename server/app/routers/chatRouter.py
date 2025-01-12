@@ -5,5 +5,5 @@ chatRouter = APIRouter()
 
 
 @chatRouter.post("/chat")
-async def sendPrompt(prompt: str):
-    return await sendPromptController(prompt)
+async def sendPrompt(prompt: str, userEmail: str):
+    return await sendPromptController(prompt, userEmail)
