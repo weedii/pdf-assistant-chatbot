@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from app.routers import entryRouter, pdfRouter, chatRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-
 app = FastAPI()
+
 
 origings = [
     "http://localhost:3000"
