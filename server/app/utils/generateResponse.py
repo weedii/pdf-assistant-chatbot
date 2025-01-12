@@ -42,7 +42,7 @@ def generateResponseFromModel(tokenizer, model, prompt):
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
     # Extract only the model's response without including the full prompt
     response = response[len(prompt):].strip()
-    print(response)
+    # print(response)
 
     return response
 
