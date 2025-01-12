@@ -36,5 +36,6 @@ def generateResponseFromPrompt(data: str, prompt: str):
     res = model.invoke(chatHistory)
 
     chatHistory.append(AIMessage(content=res.content, role="assistant"))
+    
 
     return res.content
