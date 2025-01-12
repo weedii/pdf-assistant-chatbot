@@ -82,10 +82,13 @@ const ChatPage = () => {
             alt="send icon"
             width={40}
             height={40}
-            className={`absolute bottom-7 right-3 cursor-pointer
+            className={`absolute bottom-7 right-3
               ${
-                loading ? "opacity-70 cursor-not-allowed" : "hover:opacity-85"
-              }`}
+                loading
+                  ? "opacity-70 cursor-not-allowed"
+                  : "hover:opacity-85 cursor-pointer"
+              }
+              `}
             onClick={loading ? () => {} : handleSendUserMessage}
           />
         </div>
