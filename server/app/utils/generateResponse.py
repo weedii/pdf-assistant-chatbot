@@ -32,11 +32,11 @@ def loadModel():
 
 def generateResponseFromModel(tokenizer, model, prompt):
     inputs = tokenizer(prompt, return_tensors="pt",
-                       padding=True, truncation=True)
+                       truncation=True)
     outputs = model.generate(
         **inputs,
-        max_new_tokens=150,  # Limit output length to prevent excessive responses
-        num_beams=3,         # Use beam search for better quality responses
+        max_new_tokens=200,
+        num_beams=3,
         early_stopping=True
     )
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
