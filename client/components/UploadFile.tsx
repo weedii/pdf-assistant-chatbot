@@ -2,8 +2,8 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "./common/Loader";
 import BASEURL from "@/constants/BaseUrl";
@@ -11,6 +11,7 @@ import BASEURL from "@/constants/BaseUrl";
 const UploadFile = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
   const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +30,7 @@ const UploadFile = () => {
 
   const handleUploadFile = async () => {
     if (!file) {
-      toast.error("Error while saving PDF");
+      toast.error("No file found");
       return;
     }
 
@@ -39,7 +40,10 @@ const UploadFile = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await axios.post(`${BASEURL}/pdf`, formData);
+      const res = await axios.post(
+        `${BASEURL}/pdf?userEmail=${email}`,
+        formData
+      );
       console.log(res);
       setLoading(false);
       setFile(null);
@@ -51,6 +55,14 @@ const UploadFile = () => {
       toast.error("Error while saving PDF");
     }
   };
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const email_ = localStorage.getItem("email");
+      if (!email_) return redirect("/");
+      else setEmail(email_);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-4">

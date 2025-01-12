@@ -5,7 +5,8 @@ import Message from "@/components/Message";
 import BaseURL from "@/constants/BaseUrl";
 import axios from "axios";
 import Image from "next/image";
-import React, { useState } from "react";
+import { redirect } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type listMessagesProps = {
@@ -17,6 +18,7 @@ const ChatPage = () => {
   const [message, setMessage] = useState<string>("");
   const [messagesList, setMessagesList] = useState<listMessagesProps[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
 
   const handleDataChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -42,7 +44,9 @@ const ChatPage = () => {
   const sendMessage = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(`${BaseURL}/chat?prompt=${message}`);
+      const res = await axios.post(
+        `${BaseURL}/chat?prompt=${message}&userEmail=${email}`
+      );
       handleAddBotMessage(res.data);
       setLoading(false);
     } catch (error: any) {
@@ -55,6 +59,14 @@ const ChatPage = () => {
       toast.error("Error while generating response");
     }
   };
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const email_ = localStorage.getItem("email");
+      if (!email_) return redirect("/");
+      else setEmail(email_);
+    }
+  }, []);
 
   return (
     <Container className="my-5 mx-5 lg:mx-auto px-0 min-h-[94vh] border-dashed border-2 rounded-lg border-gray-500 relative flex">
